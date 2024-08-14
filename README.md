@@ -1,5 +1,31 @@
-# High-Frequency-Customer-Percentage-Analysis
-This project aims to calculate the percentage of high-frequency customers for January 2023 using SQL. A high-frequency customer is defined as someone who places more than 5 orders within a month. The output is rounded to two decimal points to present a precise percentage of these high-frequency customers.
+# Question?
+Write an SQL query to calculate the percentage of high-frequency customers for January 2023. A high-frequency customer is defined as someone who places more than 5 orders in a month. Your output should include only the percentage of these high-frequency customers, rounded to 2 decimal places.
+
+# SQL Query
+WITH high_frequency_cust AS (
+    SELECT 
+        customer_id 
+    FROM 
+        delivery_order 
+    WHERE 
+        order_timestamp BETWEEN '2023-01-01' AND '2023-01-31'
+        AND order_timestamp IS NOT NULL
+        AND customer_id IS NOT NULL
+    GROUP BY 
+        customer_id 
+    HAVING 
+        COUNT(*) > 5
+)
+SELECT 
+    ROUND(1.00 * COUNT(DISTINCT hfc.customer_id) / COUNT(DISTINCT d.customer_id) * 100, 2) AS high_frequency_customer_percentage
+FROM 
+    delivery_order d 
+LEFT JOIN 
+    high_frequency_cust hfc 
+ON 
+    hfc.customer_id = d.customer_id 
+WHERE 
+    d.order_timestamp BETWEEN '2023-01-01' AND '2023-01-31';
 
 # SQL Query Explanation
 The SQL query is structured as follows:
@@ -14,7 +40,7 @@ Calculating the Ratio:
 The main query calculates the ratio of high-frequency customers to the total number of distinct customers who placed any orders in the same period.
 The ratio is then multiplied by 1.00 to ensure floating-point division and rounded to two decimal points for accuracy.
 
-# Order of execution for SQL query:
+# Order of execution of the SQL query:
 
 FROM clause:
 
