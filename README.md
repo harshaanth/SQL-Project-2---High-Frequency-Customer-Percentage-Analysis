@@ -68,15 +68,12 @@ The SQL query is structured as follows:
 
 - The subquery within the CTE is executed:
   
-FROM delivery_order: The delivery_order table is selected as the initial dataset.
+  -- FROM delivery_order: The delivery_order table is selected as the initial dataset.
+  -- WHERE clause: Filters rows where order_timestamp is between '2023-01-01' and '2023-01-31', and ensures order_timestamp and customer_id are not null.
+  -- GROUP BY clause: Groups the filtered rows by customer_id.
+  -- HAVING clause: Filters the groups to include only those with more than 5 orders.
 
-WHERE clause: Filters rows where order_timestamp is between '2023-01-01' and '2023-01-31', and ensures order_timestamp and customer_id are not null.
-
-GROUP BY clause: Groups the filtered rows by customer_id.
-
-HAVING clause: Filters the groups to include only those with more than 5 orders.
-
-- Main Query:
+2. Main Query:
 
 FROM clause: The delivery_order table is selected as the initial dataset (d alias).
 
