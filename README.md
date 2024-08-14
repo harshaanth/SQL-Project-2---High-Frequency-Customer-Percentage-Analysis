@@ -14,7 +14,7 @@ Calculating the Ratio:
 The main query calculates the ratio of high-frequency customers to the total number of distinct customers who placed any orders in the same period.
 The ratio is then multiplied by 1.00 to ensure floating-point division and rounded to two decimal points for accuracy.
 
-# Order of execution for your SQL query:
+# Order of execution for SQL query:
 
 FROM clause:
 
