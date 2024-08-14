@@ -68,28 +68,30 @@ The SQL query is structured as follows:
 
 - The subquery within the CTE is executed:
   
-  -- FROM delivery_order: The delivery_order table is selected as the initial dataset.
-  -- WHERE clause: Filters rows where order_timestamp is between '2023-01-01' and '2023-01-31', and ensures order_timestamp and customer_id are not null.
-  -- GROUP BY clause: Groups the filtered rows by customer_id.
-  -- HAVING clause: Filters the groups to include only those with more than 5 orders.
+  FROM delivery_order: The delivery_order table is selected as the initial dataset.
+  
+  WHERE clause: Filters rows where order_timestamp is between '2023-01-01' and '2023-01-31', and ensures order_timestamp and customer_id are not null.
+
+  GROUP BY clause: Groups the filtered rows by customer_id.
+
+  HAVING clause: Filters the groups to include only those with more than 5 orders.
 
 2. Main Query:
 
-FROM clause: The delivery_order table is selected as the initial dataset (d alias).
+- FROM clause: The delivery_order table is selected as the initial dataset (d alias).
 
-LEFT JOIN: Performs a left join between the delivery_order table (d alias) and the CTE (high_frequency_cust alias hfc) on customer_id.
+- LEFT JOIN: Performs a left join between the delivery_order table (d alias) and the CTE (high_frequency_cust alias hfc) on customer_id.
 
-WHERE clause: Applies the order_timestamp filter again to ensure the join is limited to the relevant timeframe.
+- WHERE clause: Applies the order_timestamp filter again to ensure the join is limited to the relevant timeframe.
 
-SELECT clause:
+- SELECT clause:
+   COUNT(DISTINCT hfc.customer_id): Counts distinct high-frequency customers from the CTE.
 
-COUNT(DISTINCT hfc.customer_id): Counts distinct high-frequency customers from the CTE.
+   COUNT(DISTINCT d.customer_id): Counts distinct customers who placed any orders.
 
-COUNT(DISTINCT d.customer_id): Counts distinct customers who placed any orders.
+  ROUND(1.00 * ... / ... * 100, 2): Calculates the percentage of high-frequency customers and rounds it to 2 decimal places.
 
-ROUND(1.00 * ... / ... * 100, 2): Calculates the percentage of high-frequency customers and rounds it to 2 decimal places.
-
-AS high_frequency_customer_percentage: Aliases the final calculated result.
+  AS high_frequency_customer_percentage: Aliases the final calculated result.
 
 # Visual Representation of Execution Order:
 
