@@ -85,6 +85,7 @@ The SQL query is structured as follows:
 - WHERE clause: Applies the order_timestamp filter again to ensure the join is limited to the relevant timeframe.
 
 - SELECT clause:
+  
    COUNT(DISTINCT hfc.customer_id): Counts distinct high-frequency customers from the CTE.
 
    COUNT(DISTINCT d.customer_id): Counts distinct customers who placed any orders.
@@ -95,24 +96,24 @@ The SQL query is structured as follows:
 
 # Visual Representation of Execution Order:
 
-- CTE Execution:
+1. CTE Execution:
 
-FROM delivery_order
+- FROM delivery_order
 
-WHERE order_timestamp BETWEEN '2023-01-01' AND '2023-01-31' AND order_timestamp IS NOT NULL AND customer_id IS NOT NULL
+- WHERE order_timestamp BETWEEN '2023-01-01' AND '2023-01-31' AND order_timestamp IS NOT NULL AND customer_id IS NOT NULL
 
-GROUP BY customer_id
+- GROUP BY customer_id
 
-HAVING COUNT(*) > 5
+- HAVING COUNT(*) > 5
 
-- Main Query:
+2. Main Query:
 
-FROM delivery_order d
+- FROM delivery_order d
 
-LEFT JOIN high_frequency_cust hfc ON hfc.customer_id = d.customer_id
+- LEFT JOIN high_frequency_cust hfc ON hfc.customer_id = d.customer_id
 
-WHERE d.order_timestamp BETWEEN '2023-01-01' AND '2023-01-31'
+- WHERE d.order_timestamp BETWEEN '2023-01-01' AND '2023-01-31'
 
-SELECT:
+- SELECT:
 
-ROUND(1.00 * COUNT(DISTINCT hfc.customer_id) / COUNT(DISTINCT d.customer_id) * 100, 2) AS high_frequency_customer_percentage
+  ROUND(1.00 * COUNT(DISTINCT hfc.customer_id) / COUNT(DISTINCT d.customer_id) * 100, 2) AS high_frequency_customer_percentage
