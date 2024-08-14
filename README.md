@@ -48,3 +48,4 @@ ON
     hfc.customer_id = d.customer_id 
 WHERE 
     d.order_timestamp BETWEEN '2023-01-01' AND '2023-01-31';
+```
