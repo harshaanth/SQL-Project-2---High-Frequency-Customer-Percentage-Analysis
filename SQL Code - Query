@@ -1,10 +1,3 @@
-# Business Question
-
-Write an SQL query to calculate the percentage of high-frequency customers for January 2023. A high-frequency customer is defined as someone who places more than 5 orders in a month. Your output should include only the percentage of these high-frequency customers, rounded to 2 decimal places.
-
-# SQL Query
-
-```sql
 WITH high_frequency_cust AS (
     SELECT 
         customer_id 
